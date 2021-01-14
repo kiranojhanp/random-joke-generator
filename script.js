@@ -3,9 +3,25 @@ const quoteText = document.getElementById("quote");
 const authorText = document.getElementById("author");
 const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote");
+const loader = document.getElementById("loader");
+
+// Show Loading
+const loading = () => {
+  loader.hidden = false;
+  quoteContainer.hidden = true;
+};
+
+// Hide Loading
+const complete = () => {
+  if (!loader.hidden) {
+    quoteContainer.hidden = false;
+    loader.hidden = true;
+  }
+};
 
 //  Get Quote from API
 const getQuote = async () => {
+  loading();
   const apiURL = "https://official-joke-api.appspot.com/random_joke";
 
   try {
@@ -20,6 +36,9 @@ const getQuote = async () => {
     data.length > 80
       ? quoteText.classList.add("long-quote")
       : quoteText.classList.remove("long-quote");
+
+    //   Stop Loader and show quote
+    complete();
   } catch (error) {
     console.log(`whoops, no quote ${error}`);
   }
